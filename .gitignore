@@ -1,0 +1,8 @@
+Classical-Piano-Composer-master/
+Classical-Piano-Composer-master.zip
+data/
+midi_songs/
+__pycache__/
+*~
+*.pyc
+*.hdf5
