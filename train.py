@@ -1,3 +1,4 @@
+# coding=utf8
 from keras.callbacks import ModelCheckpoint
 from utils import *
 from model import LSTMRNN
@@ -19,4 +20,4 @@ checkpoint = ModelCheckpoint(
 )
 callbacks_list = [checkpoint]
 
-model.fit(rnn_input, rnn_output, epochs=200, batch_size=64, callbacks=callbacks_list)
+model.fit(rnn_input, rnn_output, epochs=50, batch_size=64, callbacks=callbacks_list)

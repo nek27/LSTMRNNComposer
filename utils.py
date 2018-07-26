@@ -1,3 +1,4 @@
+# coding=utf8
 from music21 import converter, instrument, note, chord
 import numpy as np
 import pickle
@@ -7,18 +8,18 @@ import os
 
 def read_dataset(folder_path):
 	notes = []
+	file_list = os.listdir(folder_path)
 	count = 0
 	
-	for f in os.listdir(folder_path):
-		print('Parsing {}'.format(f))
+	for i, f in enumerate(file_list):
+		print('Parsing {}/{} {}'.format(i, len(file_list), f))
 		midi = converter.parse('{}/{}'.format(folder_path, f))
 		notes_to_parse = None
-
-		parts = instrument.partitionByInstrument(midi)
-
-		if parts: # file has instrument parts
+		
+		try: # file has instrument parts
+			parts = instrument.partitionByInstrument(midi)
 			notes_to_parse = parts.parts[0].recurse()
-		else: # file has notes in a flat structure
+		except: # file has notes in a flat structure
 			notes_to_parse = midi.flat.notes
 
 		for element in notes_to_parse:
@@ -26,14 +27,18 @@ def read_dataset(folder_path):
 				notes.append(str(element.pitch))
 			elif isinstance(element, chord.Chord):
 				notes.append('.'.join(str(n) for n in element.normalOrder))
-		break # This has to be removed
+		
+		#if(count >= 2):
+		#	break
+		count += 1
 		
 	with open('data/notes', 'wb') as filepath:
 		pickle.dump(notes, filepath)
         
 	return notes
 	
-def create_inp_out(notes : list, sequence_length = 100):
+#def create_inp_out(notes : list, sequence_length = 100):
+def create_inp_out(notes : list, sequence_length = 20):
 	
 	# Get all pitch names
 	pitch_names = sorted(set(note for note in notes))
