@@ -1,4 +1,4 @@
-# coding=utf8
+# -*- coding: utf-8 -*-
 import pickle
 import numpy as np
 from music21 import instrument, note, stream, chord
